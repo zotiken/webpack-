@@ -7,6 +7,7 @@ const MODE = process.env.MODE || "development";
 
 module.exports = {
   mode: "development",
+  context: path.resolve(__dirname),
   entry: {
     main: "./src/index.js",
     analytics: "./src/analytics.js",
@@ -19,7 +20,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/index.html"),
     }),
-    new FaviconsWebpackPlugin('./src/favicon.ico'),
+    new FaviconsWebpackPlugin(path.resolve(__dirname, './src/favicon.ico')),
     new CleanWebpackPlugin()
   ],
   module: {
@@ -37,6 +38,14 @@ module.exports = {
         ],
       },
       {
+        test: /\.(ttf)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
@@ -47,7 +56,6 @@ module.exports = {
           'sass-loader',
         ],
       },
-
     ],
   },
 };

@@ -1,3 +1,14 @@
+@import "~normalize.css";
+
+@import "./roboto.css";
+
 body {
     background: green;
+    font-family: "Roboto-Regular";
+  }
+  .logo{
+    background-image: url("../assets/webpack-logo.png");
+    background-size: cover;
+    width: 200px;
+    height: 200px;
   }
