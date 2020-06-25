@@ -1,4 +1,4 @@
-class Post {
+ class Post {
   constructor(title) {
     (this.title = title), (this.date = new Date());
   }
@@ -9,3 +9,6 @@ class Post {
     });
   }
 }
+
+ export default Post;
+ 

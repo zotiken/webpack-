@@ -1,0 +1,30 @@
+{
+  "name": "webpack-2020",
+  "version": "1.0.0",
+  "description": "webpack js ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zotiken/webpack-.git"
+  },
+  "keywords": [
+    "webpack",
+    "js"
+  ],
+  "author": "Lelyavin Nikita <zotiken@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zotiken/webpack-/issues"
+  },
+  "homepage": "https://github.com/zotiken/webpack-#readme",
+  "dependencies": {
+    "webpack": "^4.43.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.12"
+  }
+}
