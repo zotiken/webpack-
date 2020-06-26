@@ -1,10 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+var OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const MODE = process.env.MODE || "development";
 const isDev = process.env.NODE_ENV === "development";
@@ -12,7 +12,7 @@ const isProd = !isDev;
 console.log(isDev);
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   context: path.resolve(__dirname),
   entry: {
     main: "./src/index.js",
@@ -30,7 +30,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/assets', to: 'copy' },
+        { from: "src/assets", to: "copy" },
       ],
     }),
     new MiniCssExtractPlugin(),
@@ -39,28 +39,28 @@ module.exports = {
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all'
+      chunks: "all"
     },
     minimize: isProd,
     minimizer: [new TerserPlugin(),new OptimizeCssAssetsPlugin()],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 9000,
-    hot: isDev
+    hot: true
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-       use:[MiniCssExtractPlugin.loader, 'css-loader']
+       use:[MiniCssExtractPlugin.loader, "css-loader"]
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },
@@ -68,7 +68,7 @@ module.exports = {
         test: /\.(ttf)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },
@@ -78,18 +78,18 @@ module.exports = {
           // Creates `style` nodes from JS strings
           MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
-          'css-loader',
+          "css-loader",
           // Compiles Sass to CSS
-          'sass-loader',
+          "sass-loader",
         ],
       },
       {
-        test: /\.(js)$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         use: [{
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env']
+            presets: ["@babel/preset-env","@babel/preset-react"]
           }
         },
         "eslint-loader"]
