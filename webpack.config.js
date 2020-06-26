@@ -1,12 +1,16 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const MODE = process.env.MODE || "development";
+const isDev = process.env.NODE_ENV === "development";
+const isProd = !isDev;
+console.log(isDev);
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   context: path.resolve(__dirname),
   entry: {
     main: "./src/index.js",
@@ -19,15 +23,33 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "./src/index.html"),
+        favicon: "./src/favicon.ico",
+        minify: isProd
     }),
-    new FaviconsWebpackPlugin(path.resolve(__dirname, './src/favicon.ico')),
-    new CleanWebpackPlugin()
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/assets', to: 'copy' },
+      ],
+    }),
+    new MiniCssExtractPlugin(),
+    new CleanWebpackPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000,
+    hot: isDev
+  },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
@@ -49,7 +71,7 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
