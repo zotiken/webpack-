@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const MODE = process.env.MODE || "development";
 const isDev = process.env.NODE_ENV === "development";
@@ -33,11 +35,14 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
+    
   ],
   optimization: {
     splitChunks: {
       chunks: 'all'
-    }
+    },
+    minimize: isProd,
+    minimizer: [new TerserPlugin(),new OptimizeCssAssetsPlugin()],
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
@@ -49,7 +54,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
+       use:[MiniCssExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
