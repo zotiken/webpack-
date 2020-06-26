@@ -1,4 +1,8 @@
 function createAnalytics() {
+  async function name(els) {
+    await els;
+  }
+  name("ddd");
   let counter = 0;
   let isDestroy = false;
   const listener = () => counter++;

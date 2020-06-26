@@ -9,6 +9,8 @@
     });
   }
 }
-
+async function name(els) {
+  await els;
+}
  export default Post;
  
